@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BsBookmarkStarFill } from "react-icons/bs";
 import Title from "../Title";
 import { Message, Select } from "../UserInput";
@@ -40,7 +40,6 @@ const Ratings = [
   },
 ];
 function MovieRates({ movie }) {
-  const [rating, setRating] = useState();
   const dispatch = useDispatch();
   const { isLoading, isError } = useSelector((state) => state.createReview);
   const { userInfo } = useSelector((state) => state.userLogin);

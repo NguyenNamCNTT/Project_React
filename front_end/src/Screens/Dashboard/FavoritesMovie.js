@@ -3,10 +3,13 @@ import SideBar from "./SideBar";
 import Table from "../../Components/Table";
 
 import { useDispatch, useSelector } from "react-redux";
-import { deleteFavoriteMoviesAction, getFavoriteMoviesAction } from "../../Redux/Actions/userActions";
+import {
+  deleteFavoriteMoviesAction,
+  getFavoriteMoviesAction,
+} from "../../Redux/Actions/userActions";
 import toast from "react-hot-toast";
 import Loader from "../../Components/Notfications/Loader";
-import { Empty } from './../../Components/Notfications/Empty';
+import { Empty } from "./../../Components/Notfications/Empty";
 
 function FavoritesMovie() {
   const dispatch = useDispatch();
@@ -16,14 +19,14 @@ function FavoritesMovie() {
   );
 
   //delete
-  const { isLoading:deleteLoading, isError:deleteError, isSuccess } = useSelector(
+  const { isLoading: deleteLoading, isError: deleteError } = useSelector(
     (state) => state.userDeleteFavoriteMovies
   );
-//delete movies handler
-const deleteMoviesHanlder = () => {
-  window.confirm("Are you want to delete all movies ?") &&
-  dispatch(deleteFavoriteMoviesAction())
-}
+  //delete movies handler
+  const deleteMoviesHanlder = () => {
+    window.confirm("Are you want to delete all movies ?") &&
+      dispatch(deleteFavoriteMoviesAction());
+  };
   useEffect(() => {
     dispatch(getFavoriteMoviesAction());
     if (isError || deleteError) {
@@ -38,23 +41,22 @@ const deleteMoviesHanlder = () => {
       <div className="flex flex-col gap-6">
         <div className="flex-btn gap-2">
           <h2 className="text-xl font-bold">Favovites Movies</h2>
-          {likedMovies?.length > 0 && 
-            <button 
-            disabled = {deleteLoading}
-            onClick={deleteMoviesHanlder}
-            className="bg-main font-medium transitions hover:bg-subMain border border-subMain text-white py-3 px-6 rounded">
-              {
-                deleteLoading ? "Deleting..." : "Delete All"
-              }
+          {likedMovies?.length > 0 && (
+            <button
+              disabled={deleteLoading}
+              onClick={deleteMoviesHanlder}
+              className="bg-main font-medium transitions hover:bg-subMain border border-subMain text-white py-3 px-6 rounded"
+            >
+              {deleteLoading ? "Deleting..." : "Delete All"}
             </button>
-          }
+          )}
         </div>
         {isLoading ? (
           <Loader />
         ) : likedMovies?.length > 0 ? (
           <Table data={likedMovies} admin={false} />
         ) : (
-          <Empty message="No favorite movie"/>
+          <Empty message="No favorite movie" />
         )}
       </div>
     </SideBar>
